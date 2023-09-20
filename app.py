@@ -10,7 +10,6 @@ import base64
 import os
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 import torch
-torch.cuda.set_device(0)
 st.set_page_config(page_title="Traffic Monitoring", page_icon="🤖", layout="wide")
 hide_streamlit_style = """
             <style>
