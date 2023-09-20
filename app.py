@@ -56,13 +56,10 @@ coordinatesDict = dict()
 clsCounterUp = {'car': 0, 'truck': 0, 'motorbike': 0}
 clsCounterDown = {'car': 0, 'truck': 0, 'motorbike': 0}
 
-# Create a dictionary to store the maximum speed of each vehicle
 max_speeds = {}
 
-# Create a Streamlit container to display the warning messages
 warning_container = st.empty()
 
-# Create Streamlit containers to display the values
 counter1, counter2 = st.columns(2)
 with counter1:
     st.markdown("**Total Count Up**")
@@ -77,7 +74,6 @@ with counter1:
     st.markdown("**Motorbike Count Up**")
     counter5_text = st.markdown("0")
 
-# Display the initial values in the second main column
 with counter2:
     st.markdown("**Total Count Down**")
     counter2_text = st.markdown("0")
@@ -93,7 +89,8 @@ with counter2:
 
 def process_frame(frame):
     img = cv2.resize(frame, (1280, 720))
-    imgRegion = cv2.bitwise_and(img, mask)
+    mask_resized = cv2.resize(mask, (1280, 720))
+    imgRegion = cv2.bitwise_and(img, mask_resized)
     results = model(imgRegion, stream=True)
     detections = list()
     for r in results:
@@ -156,7 +153,6 @@ def process_frame(frame):
                 # Change the color of the bounding box to red if the vehicle is exceeding the speed limit
                 if estimatedSpeedValue > speed_limit:
                     clsColor = (0, 0, 255)
-                    # Update the maximum speed of the vehicle
                     if track_id not in max_speeds or estimatedSpeedValue > max_speeds[track_id]:
                         max_speeds[track_id] = estimatedSpeedValue
                         # Update the warning message for the vehicle
@@ -193,7 +189,6 @@ def process_frame(frame):
                         clsCounterDown[currentClass] += 1
                         cv2.line(img, (limitsDown[0], limitsDown[1]), (limitsDown[2], limitsDown[3]), (255, 255, 255),
                                  thickness=3)
-    # Update the values in real-time
     counter1_text.markdown(str(len(totalCountUp)))
     counter2_text.markdown(str(len(totalCountDown)))
     counter3_text.markdown(str(clsCounterUp["car"]))
