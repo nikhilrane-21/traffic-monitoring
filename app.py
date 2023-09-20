@@ -34,7 +34,7 @@ with st.sidebar:
 
 st.title("Dashboard")
 
-model = YOLO("./YoloWeights/yolov8l.pt")
+model = YOLO("./YoloWeights/yolov8s.pt")
 
 mask = cv2.imread("static/mask.png")
 
